@@ -7,11 +7,16 @@ package com.mycompany.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.mycompany.models.Booking;
+import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 /**
  *
  * @author HP
  */
-    @Repository
+@Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
+//    @Query("select u from User u where u.emailAddress = ?1")
+//    User myCustomQuery(String emailAddress);
+//       List<Booking> findAll();
 }
-
