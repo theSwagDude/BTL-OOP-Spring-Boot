@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api")
 public class BookingController {
     @Autowired
@@ -50,17 +51,17 @@ public class BookingController {
     }
 
     @DeleteMapping("/booking/{bookingId}")
-    public String deleteBooking(@PathVariable(name = "bookingId") Integer bookingId) {
+    public boolean deleteBooking(@PathVariable(name = "bookingId") Integer bookingId) {
         BookingService.remove(bookingId);
-        return "Booking has been deleted";
+        return true;
     }
 
     @PostMapping("/booking")
-    public String addBooking(@RequestBody Booking booking){
+    public Booking addBooking(@RequestBody Booking booking){
 //        System.out.println("a");
-        if(!BookingService.add(booking))
-            return "Failed, please chose a different time or employee";
+        if(BookingService.add(booking))
+            return booking;
         else
-            return "Booking added sucessfully";
+            return new Booking();
     }
 }
