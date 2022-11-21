@@ -27,43 +27,40 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
     @Autowired
     BookingRepository bookingRepository;
-//    private List<Booking> bookingList = new CopyOnWriteArrayList<>();
-//    @PostConstruct
-//    public void init() {
-//        bookingList = bookingRepository.findAll();
-//    }
+    
+    @Autowired
+    BookingService BookingService;
 
     @GetMapping("/booking")
     public List<Booking> getBookingList() {
-//        bookingRepository.findAll().forEach(bookingList::add);
-//        System.out.println(bookingList.toString());
-        return bookingRepository.findAll();
+        return BookingService.findAll();
     }
 
 
     @GetMapping("/booking/{bookingId}")
     public Booking getBooking(@PathVariable(name = "bookingId") Integer bookingId) {
-        return bookingRepository.findById(bookingId).get();
+        return BookingService.findOne(bookingId);
     }
 
     @PutMapping("/booking/{bookingId}")
     public Booking editBooking(@PathVariable(name = "bookingId") Integer bookingId,
             @RequestBody Booking booking) {
-        bookingRepository.save(booking);
+        BookingService.edit(bookingId, booking);
         return booking;
     }
 
     @DeleteMapping("/booking/{bookingId}")
-    public ResponseEntity deleteBooking(@PathVariable(name = "bookingId") Integer bookingId) {
-        Booking booking = bookingRepository.findById(bookingId).get();
-        bookingRepository.delete(booking);
-        return ResponseEntity.ok().build();
+    public String deleteBooking(@PathVariable(name = "bookingId") Integer bookingId) {
+        BookingService.remove(bookingId);
+        return "Booking has been deleted";
     }
 
     @PostMapping("/booking")
-    public ResponseEntity addBooking(@RequestBody Booking booking){
-        System.out.println("a");
-        Booking save = bookingRepository.save(booking);
-        return ResponseEntity.ok().build();
+    public String addBooking(@RequestBody Booking booking){
+//        System.out.println("a");
+        if(!BookingService.add(booking))
+            return "Failed, please chose a different time or employee";
+        else
+            return "Booking added sucessfully";
     }
 }

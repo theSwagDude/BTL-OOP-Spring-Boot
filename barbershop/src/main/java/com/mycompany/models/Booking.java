@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import java.sql.Time;
-import java.sql.Date;
+//import java.sql.Time;
+//import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import lombok.Data;
 
 @Entity
@@ -20,8 +22,8 @@ public class Booking implements Serializable {
     private int id;
     private String service;
     private String employee;
-    private Time set_hour;
-    private Date set_date;
+    private LocalTime set_hour;
+    private LocalDate set_date;
     private String note;
     private String phone_number;
     private String name;
